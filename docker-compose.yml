@@ -1,0 +1,29 @@
+version: '3'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports:
+            - "3000:3000"
+        volumes:
+            - /app/node_modules
+            - .:/app
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules
+            - .:/app
+        command: ["npm", "run", "test"]
+
+# context: El directorio o subdirectorio donde afecta (el puinto es para todo)
+# volumes: le indicamos el mapeo que debe hacer para poder tener actualizaciones rápidas en el código
+# sin necesidad de hacer continuos builds
+
+# Para lanzar los test lo hacemos a la hora del run con un comando específico
+# docker run -it (image ID) npm run test
+
+# O podemos ejecutarlo sobre el propio contenedor ya en marcha en una segunda consola
+# docker exec -it (container ID) npm run test
